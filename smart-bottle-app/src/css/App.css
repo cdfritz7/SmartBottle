@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.App{
+  width: 100vw;
+  font-family: 'Roboto', sans-serif;
+}
+
+.title{
+  text-align: center;
+  margin: auto;
+  font-size: 32pt;
+  font-weight: bold;
+  width: 100%;
+}
+
+.sub-heading{
+  text-align: center;
+  font-size: 24pt;
+  font-weight: bold;
+}
+
+.txt{
+  margin: auto;
+  font-size: 16pt;
+  width: 50%;
+  text-align:justify;
+  text-justify:inter-word;
+}
+
+.fig-description{
+  margin: auto;
+  text-align: center;
+  font-size: 14pt;
+  width: 50%;
+  font-style: italic;
+}
+
+.img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:15px;
+  margin-bottom:15px;
+  width: 300px;
+  outline: solid 0px #FC5185;
+  transition: 0.3s ease-in-out;
+}
+
+.img:hover{
+  outline-width: 10px;
+  width: 600px;
+  max-width: 80%;
+}
+
+.img:target{
+  width: 40vw;
+  max-width: 30%;
+}
