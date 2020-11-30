@@ -13,23 +13,23 @@ class App extends Component{
 
     return (
       <div className="background">
-          <div style={{height:"100vh", display:"flex", alignItems:"center"}}>
-            <div className="my-container" style={{marginTop:"-100px"}}>
-              <p className="title" style={{marginBottom:"50px"}}>
+          <div style={{display:"flex", alignItems:"center", flexWrap:"wrap"}}>
+            <div className="my-container" style={{marginTop:"150px"}}>
+              <p className="title">
                 Multimodal Sensing for Tracking Medication Adherence
               </p>
-              <p
-                className="sub-heading"
-                style={{fontWeight:"200", textDecoration:"initial"}}>
+              <p className="sub-title">
+                Final Term Project for EE 382V - Activity Sensing and Recognition
+              </p>
+              <p className="sub-title" style={{fontStyle:'italic'}}>
                 Corey Karnei, Connor Fritz
               </p>
             </div>
-          </div>
 
           <div className="my-container">
             <p className="sub-heading">Introduction</p>
             <p className="txt">
-              Test push Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+              This is an example of a reference <a href="#ref1">[2]</a>. ipsum dolor sit amet, consectetur adipiscing elit,
               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
@@ -132,7 +132,7 @@ class App extends Component{
             </p>
           </div>
 
-          <div className="my-container" style={{marginBottom:"0px"}}>
+          <div className="my-container">
             <p className="sub-heading"> Conclusions </p>
             <p className="txt">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -151,6 +151,21 @@ class App extends Component{
               in culpa qui officia deserunt mollit anim id est laborum.
             </p>
           </div>
+
+          <div className="my-container" style={{marginBottom:"0px"}}>
+            <p className="sub-heading"> References </p>
+            <p className="reference" id="ref1">
+              [1] A Reference aboout something or another. <i>John Johnathan, John Johannesbergy, Joanne jolene</i> Journal of not a real journal.
+            </p>
+            <p className="reference">
+              [2] A Reference aboout something or another. <i>John Johnathan, John Johannesbergy, Joanne jolene</i> Journal of not a real journal.
+            </p>
+            <p className="reference">
+              [3] A Reference aboout something or another. <i>John Johnathan, John Johannesbergy, Joanne jolene</i> Journal of not a real journal.
+            </p>
+          </div>
+
+        </div>
       </div>
     );
   }
