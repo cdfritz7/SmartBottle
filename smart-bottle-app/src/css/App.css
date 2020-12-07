@@ -7,7 +7,7 @@ html {
 .background{
     background: linear-gradient(45deg, #5433ff, #30bdff, #a5fecb);
     background-size: 200% 200%;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Calibri', sans-serif;
     padding: 100px;
 
     -webkit-animation: AnimationName 10s linear infinite;
@@ -66,6 +66,13 @@ html {
   margin-top:0px;
 }
 
+.sub-sub-heading{
+  text-align: center;
+  font-size: 22pt;
+  font-weight: bold;
+  margin-top:0px;
+}
+
 .txt{
   margin: auto;
   font-size: 20pt;
@@ -100,6 +107,16 @@ html {
   width: 300px;
   outline: solid 0px #30bdff;
   transition: 0.5s linear;
+}
+
+.img_stable{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:15px;
+  margin-bottom:15px;
+  width: 500px;
+  outline: solid 0px #30bdff;
 }
 
 .img:hover{
