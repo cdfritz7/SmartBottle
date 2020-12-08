@@ -44,7 +44,7 @@ class App extends Component{
             <p className="sub-heading">Motivation</p>
             <p className="txt">
             Estimates from the World Health Organization indicate that patients in developed countries only
-            take about 50% of prescribed medicine for chronic diseases like hypertension and diabetes. Although
+            take about 50% of prescribed medicines for chronic diseases like hypertension and diabetes. Although
             seniors are the largest consumers of healthcare resources, studies indicate that as many as 55% of them do
             not properly take their medications and up to 30% of all hospital readmissions are due to medication
             non-adherence <a href="#ref1" id="ref1b">[1]</a>. Not only is this non-adherence damaging the health of the individuals it affects, in
@@ -66,9 +66,6 @@ class App extends Component{
             taking steps to eliminate privacy concerns - thus providing a mobile system that is more difficult to ‘trick’
             than the smart pill bottles currently on the market.
             </p>
-
-
-
           </div>
 
           <div className="my-container">
@@ -81,15 +78,15 @@ class App extends Component{
             container is open or not <a href="#ref7" id="ref7b">[7]</a><a href="#ref8" id="ref8b">[8]</a>. One approach involved RFID chips on pill bottles to detect if the bottle is
             taken from a medicine cabinet combined with face detection and tracking from a stationary camera <a href="#ref9" id="ref9b">[9]</a>.
             Many of these papers tried to increase adherence by reminding the user when they fail to take their
-            medication. We aim to develop a system that could be applicable for senior citizens as well as mentally ill
+            medication. We aimed to develop a system that could be applicable for senior citizens as well as mentally ill
             patients who don’t take their medicine by choice rather than by accident. We believe that our approach is
             novel due to the combination of inertial and video sensing, and because the cameras are able to move with
-            the bottle.
-
+            the bottle. More specifically, we could not find other projects that applied hand and face
+            tracking to data from mobile cameras mounted on the bottle.
             </p>
 
             <Image src={glow_bottle_img} className="img" rounded />
-            <p className="fig-description">Fig1. Existing Smart Bottle Prototype </p>
+            <p className="fig-description">Fig 2. Existing Smart Bottle Prototype </p>
 
           </div>
 
@@ -99,43 +96,61 @@ class App extends Component{
             Our plan was to build a system for tracking medication intake behavior using a combination of inertial
             sensing and computer vision. To this end, we employed an inertial sensor to classify what action was
             being performed to the pill bottle, an internal camera that would serve to indicate
-            that the bottle cap had been removed, and external cameras that would recognize that
+            whether the bottle cap had been removed, and external cameras that would recognize when
             a pill-taking motion had happened. In combination, these would be able to give a
-            hysician a good sense as to whether a patient had taken a pill or not.
+            physician a good sense as to whether a patient had taken a pill or not.
             </p>
             <br></br>
             <br></br>
             <p className="txt">
-            We 3-d modeled and printed a piece that would attach to the pill bottle’s cap, and could
+            To mount the internal and external cameras to the pill bottle, we
+            3-d modeled and printed a plastic piece that would attach to the pill bottle’s cap, and could
             house 4 cameras facing in each direction.
             </p>
             <Image src={cad_img} className="img" rounded />
+            <p className="fig-description">Fig 2. 3D Model for Camera Mount </p>
+            <br></br>
+            <br></br>
+
             <p className="txt">
             We employed several miniature
-            nanny-cams purchased online for this very purpose.
+            cameras purchased online to record video while the pill bottle
+            was in use. Each miniature camera cost about $15 and was attached
+            to the 3D printed mount with a velcro strip.
             </p>
             <Image src={camera_img} className="img" rounded />
+            <p className="fig-description">Fig 3. Miniature Camera </p>
+            <br></br>
+            <br></br>
+
             <p className="txt">
-             We also used a cell phone
+            We also used a cell phone
             running the app sensorlog to capture inertial data, which was attached to the bottom
-            of the bottle. The internal camera, as described before, was affixed to the underside of the bottle cap.
+            of the bottle. The internal camera was affixed to the underside of the bottle cap.
             </p>
             <Image src={lid_img} className="img" rounded />
+            <p className="fig-description">Fig 4. Internal Camera Fixation </p>
+            <br></br>
+            <br></br>
+
             <p className="txt">
-            Here is the final design, with the cameras affixed to the mount and the phone attached:
+            The final design is shown below, with the cameras affixed to the mount and the phone attached
+            to the bottom of the assembly.
             </p>
             <Image src={whole_bottle_img} className="img" rounded />
+            <p className="fig-description">Fig 5. Complete Design </p>
+
             <br></br>
             <br></br>
             <hr></hr>
             <br></br>
 
             <p className="txt">
-            A total of 5 particpants were recruited to gether data for this project. Each participant was presented
+            A total of 5 particpants were recruited to gather data for this project. Each participant was presented
             with a script that detailed specific actions for the participants to make sequentially. They were instructed to
             repeat the steps of the script 10 times, taking one pill each time for a total of 50 pill-taking moments. All participants
             completed their tasks on the same day and in the same location. Each person was also filmed with a smartphone while they
-            performed the tasks for the purposes gathering the 'true labels' for each model.
+            performed the tasks for the purpose of gathering the 'true labels' for each model.
             </p>
           </div>
 
@@ -151,41 +166,54 @@ class App extends Component{
             <p className="sub-sub-heading"> Internal Camera - Model 1 </p>
             <p className="txt">
               To detect whether the the pill bottle cap had been removed, we
-              trained a simple convolutional neural network on the footage from the
+              trained a simple convolutional neural network (CNN) on the footage from the
               internal camera. Within the CNN, the RELU activtion function was used. All
-              images from the camera were scaled to 64x64 pixels and were
-              grayscaled to increase speed. Image augmentations were
-              also perfomed via brightening/darkening or vertcial flipping to increase the size of the
-              data set and the accuracy of the model. Below you see an example image from the internal
+              images from the camera were scaled to a 64x64 pixel size and were
+              converted to gradyscale to increase the speed and decrease the memory consumption
+              of the CNN. Additionally, the resizing of the images mutated the time
+              stamps at the bottom left corner of each image, thereby minimizing
+              the chance that these could be erroneosly used as features by
+              the CNN. Image augmentations were
+              also perfomed via brightening/darkening and vertcial flipping to increase the size of the
+              data set and the accuracy of the model. Shown below is an example image from the internal
               camera.
             </p>
             <Image src={candy_img} className="img" rounded />
+            <p className="fig-description">Fig 6. Internal Camera View When Bottle Closed </p>
+            <br />
+            <br />
             <p className="txt">
-            This method gave us pretty good results, achieving 91% accuracy on just the
-            raw image set, and 94% when the augmented images were added. In retrospect,
-            this seems like a wasteful way to detect whether the bottle is opened or not.
-             A switch would likely have given comparable accuracy while being smaller,
-             cheaper, and less battery intensive.
+            This method achieved a 91% leave one participant out cross validation (LOPOCV) accuracy on just the
+            raw image set, and 94% LOPOCV when the data set was expanded by 100% with augmented images. However, using
+            a CNN to detect whether or not the bottle is opened or closed would not be
+            the best method to employ in a consumer product. A switch would have a near 100% accuracy
+            while also being smaller, cheaper, and less battery intensive than a machine learning
+            approach. However, applying a CNN to this particular problem
+            taught us more about image manipulation and the image labelling process.
             </p>
             <br></br>
             <hr></hr>
             <br></br>
             <p className="sub-sub-heading"> Inertial Sensor - Model 2 </p>
             <p className="txt">
-            For the inertial sensor, we extract 4 features from each dimension of movement.
-            Mean, variance, skew, and kurtosis. We then used a Random Forest Classifier
-            to determine what activity was being picked performed. On the right you can
-            see a snippet of the data, containing 4 pill-taking moments. The true labels
+            For the inertial sensor, we extracted 4 features from each dimension of movement :
+            mean, variance, skew, and kurtosis. We then used a random forest classifier
+            to determine what activity was being performed. Below, you can
+            see a snippet of the data which contains 4 pill-taking moments. The true labels
             were created manually after watching the smartphone video recorded separately.
-            In each pill-taking, you can see it go from stationary to picking up to getting pill
+            In each pill-taking gesture, you can see it go from stationary to picking up to getting pill
             to putting down.
             </p>
             <Image src={inertial_img} className="img" rounded />
+            <p className="fig-description">Fig 7. Inertial Sensor Data </p>
+            <br />
+            <br />
             <p className="txt">
             We reached 95% accuracy when trained on a random split,
-            and 85% when leaving one participant out. These results are reasonable,
+            and 85% when using LOPOCV. These results are reasonable,
             and since most pill bottles spend most of the time in one spot, it is
-            very unlikely that a pill-taking moment would be entirely missed by this model.
+            very unlikely that an entire pill taking moment would be completely
+             missed by this model.
             </p>
             <br></br>
             <hr></hr>
@@ -193,34 +221,60 @@ class App extends Component{
             <p className="sub-sub-heading"> External Cameras - Model 3 </p>
             <p className="txt">
               To detect when a pill has been taken, we made use of an existing
-              system, YOLO v3 <a href="#ref10" id="ref10b">[10]</a>.
-            </p>
-            <Image src={yolo_img} className="img_stable" rounded />
-            <p className="txt">
-              You only look once (YOLO) is a state-of-the-art, real-time
-              object detection system. It is able to detect many different
+              system, YOLOv4 <a href="#ref10" id="ref10b">[10]</a>.
+              You only look once version 4 (YOLOv4) is a state-of-the-art, real-time
+              object detection framework. YOLOv4 is able to detect many different
               objects at once, and will provide bounding boxes wherever it
               detects each object. The default version of this tool is trained on dogs, cats,
               horses, planes, and 16 other classes. But since none of these were hands
               or faces, we sought out databases for these classes individually and trained our
-              own version of YOLO to detect them both. We used the Oxford Hands Dataset and the
-              WIDER Faces Dataset.
+              own versions of YOLOv4 to detect them both. We used the Oxford Hands Dataset <a href="#ref11" id="ref11b">[11]</a> and the
+              WIDER Faces Dataset <a href="#ref12" id="ref12b">[12]</a>. While a single YOLOv4 model is able to detect multiple objects,
+              we trained two separate models - one for faces and one for hands.
+              This is because many of the pictures in the Oxford Hands Dataset contain
+              un-annotated faces, and many of the pictures in the WIDER Faces Dataset
+              contain un-annotated hands.
+              If these datasets were combined to train a single YOLOv4 model,
+              the model would have a difficult time learning defining features
+              with so many unlabelled hands and faces present.
             </p>
             <Image src={sam_img} className="img" rounded />
+            <p className="fig-description">Fig 8. External Camera Model Bounding Boxes </p>
+            <br />
+            <br />
             <p className="txt">
-            After training yolo to detect faces and hands, we ran the external
-            camera videos throu our newly trained model. In cases where the
-            bounding box of a hand overlapped with the bounding box of a face,
-            we considered this to be a pill-taking moment. Below you a snippet of one pill-taking moment
-            broken down into its frames. On the top row in red, you have the frames where our
-            model detected a hand. On the bottom in blue, you have the frames where our model detected
-            a face. In the middle in green, you have the frames where they overlap along
-            with an X that makes the true moment a pill was taken.
+            After training our two separate YOLOv4 models, we ran the external
+            camera videos through our models to generate face and hand bounding boxes.
+            Pill taking instances were recorded when two
+            criteria were met in the same frame. A hand and a face bounding box
+            had to overlap, and the area of the hand bounding box had to be smaller
+            than the area of the face bounding box. The first criterion is meant to
+            detect when a participant has their hand near their face. The second
+            criterion is meant to cull false positives caused when a
+            participant's hand obscures their face from the camera's view.
+            Pill taking instances within 1 second of one another are then grouped
+            together to form pill taking moments.
+
+            Below you can see a snippet of one pill-taking moment
+            and its composite pill taking instances. On the top row in red are
+            the frames where our model detected a hand. On the bottom in blue are
+            the frames where our model detected a face. In the middle
+            in green are the frames where both criteria are met. The
+            black X indicates the true label of the pill taking moment.
             </p>
             <Image src={overlap_img} className="img" rounded />
+            <p className="fig-description">Fig 9. A Pill Taking Moment </p>
+            <br />
+            <br />
             <p className="txt">
-            Accuracy for this model was ~80%. Some of the pill taking moments were only partially in frame
-            and we believe this caused the accuracy to be lower than it could have been.
+            Neither LOPOCV nor a train/test split
+            were used to evaulate this model as the model was not trained on the external camera data.
+            Instead, the participant's data was use to test the complete model.
+            Overall, 80% of the 50 true pill taking moments were detected. There
+            were also very few false positives. Some of the pill taking moments were only partially in frame
+            and we believe this caused the accuracy to be lower than it could have been otherwise.
+            In a real implementation, this could be remedied by using a fish eye lense camera,
+            or by using more cameras to expand the device's field of view.
             </p>
           </div>
 
@@ -231,18 +285,24 @@ class App extends Component{
             patients are taking their medicine, we have proposed a system for integrating these separate
             models. When given data for a period of time, say a day, each model would perform its evaluation
             independently and return a boolean indicating whether or not that model believes a pill was
-            taken. These booleans could then be summed and sent to the patient’s doctor, acting as a sort of score
+            taken. These booleans could then be summed and sent to the patient’s doctor, acting as a score
             denoting how confident the system is that a pill was taken.
             </p>
             <Image src={integration1_img} className="img" rounded />
+            <p className="fig-description">Fig 10. Potential Model Integration </p>
+            <br />
+            <br />
             <p className="txt">
-            In such a system, the doctor would be able to look at a dashboard like the one you see here.
+            In such a system, the doctor would be able to look at a dashboard like the one below.
             </p>
-            <Image src={integration2_img} className="img" rounded />
+            <Image src={integration2_img} className="img" style={{width:"700px"}} rounded />
+            <p className="fig-description">Fig 11. Dashboard Mockup</p>
+            <br />
+            <br />
             <p className="txt">
             Across time, the doctor would be able to get a decent understanding of how well the
             patient has been adhering to their medication and could intervene if they see results like
-            in the bottom figure. Combining the predictions in this way makes the system more robust, as
+            those shown in the bottom figure. Combining the predictions in this way makes the system more robust, as
             even if one of the models is wrong on a given day, across all 3 models and across multiple days
             the trend should still be clear.
             </p>
@@ -257,7 +317,8 @@ class App extends Component{
               <p className="txt">
               The first is the disconnectedness of the sensors. Each sensor was its own device
               and the fact that each one started collecting data at a slightly different time made it much more difficult to
-              try and actually implement an integrated system like the one described. Additionally, having to consolidate
+              try and actually implement an integrated system like the one described in the previous section.
+              Additionally, having to consolidate
               the data from 6 different devices made scaling up our data collection somewhat impractical. In the future,
               we would consolidate the sensors to one device, perhaps using a microcontroller, which would allow us to activate
               all the sensors at once and store the data in one location.
@@ -266,29 +327,53 @@ class App extends Component{
               <p className="txt">
               The second limitation was the limited field of view.
               Although we positioned the external cameras in all four directions, there was still a few degrees between any two cameras that
-              was a blind spot. A fisheye lens could possibly be employed to solve this issue.
+              was a blind spot. This led to errors in our object detection models,
+              as some pill taking moments were not visible in the camera data.
+              A fisheye lens could possibly be employed to solve this issue.
               </p>
               <br></br>
               <p className="txt">
               A final limitation pertains to privacy. Two of
               our models used cameras to capture data,
               but cameras come with a litany of privacy concerns that our work did nothing to address. To remedy this,
-              an infrared camera could be used instead.
+              an infrared camera could be used instead of standard video cameras.
+              Additionally, in a consumer-ready product, the internal camera could
+              be replaced by a switch of some sort. Additionally, hand and face
+              detection could be run in real time on the microcontroller, and the
+              camera data could be discarded.
               </p>
               <br></br>
               <p className="txt">
-              If we were to extend this work further, we would actually create the system that consolidates
-              the models' output into a adherence confidence score and flesh out
-              and develop the physician portal proposed.
+              Overall, if we were to extend this work further, we would create a
+              system that consolidates
+              the models' output into a adherence confidence score, flesh out
+              and develop the propsed physician portal, and address the limitations
+              listed above.
             </p>
           </div>
 
           <div className="my-container">
             <p className="sub-heading"> Conclusion </p>
             <p className="txt">
-              In this report we described a novel, multimodal approach for Tracking Medication Adherence. Using
-              a combination of inertial and visual sensors and integrating them in sdsdasd as..s.a.d.ad im running
-              out of gas.
+              In this report we described a novel, multimodal approach for tracking medication adherence.
+              Three separate models were created to detect aspects of pill taking gestures.
+              The first model classified whether the bottle was open or closed based
+              off of data from an internal camera. This model was able to achieve
+              a 94% LOPOCV accuracy. The second model used inertial data collected
+              from a smartphone attached to the bottle. This model classified whether
+              the bottle was stationary, being picked up, being put down, or being
+              moved by the participant to obtain a pill. This model was able to achieve
+              an 85% LOPOCV accuracy. The third and final model used data collected
+              from four external cameras mounted to the pill bottle. This model used
+              two separate YOLOv4 instances trained on outside datasets - one for hand detection, and one for
+              face detection. This model combined the outputs from the YOLOv4 instances
+              to detect pill taking moments with an 80% accuracy when tested on
+              the totality of the external camera data. To our knowledge, this
+              is the first project to use both inertial sensing and camera data
+              collected from a mobile bottle to detect pill taking gestures. In
+              the future, this project could be expanded by connecting the sensors,
+              integrating the models, addressing privacy concerns, and creating a
+              user friendly app for physicians to track patient pill taking behavior.
             </p>
           </div>
 
@@ -345,7 +430,18 @@ class App extends Component{
             </p>
 
             <p className="reference" id="ref10">
-              <a href="#ref10b">[10]</a> <a href="https://pjreddie.com/darknet/yolo/">https://pjreddie.com/darknet/yolo/</a>
+              <a href="#ref10b">[10]</a> Bochkovskiy, Alexey, et al. "YOLOv4: Optimal Speed and Accuracy of Object Detection."
+              arXiv preprint arXiv:2004.10934v1, 2020
+            </p>
+
+            <p className="reference" id="ref11">
+              <a href="#ref11b">[11]</a> Mittal, A., et al. "Hand Detection Using Multiple Proposals"
+              British Machine Vision Conference, 2011
+            </p>
+
+            <p className="reference" id="ref12">
+              <a href="#ref12b">[12]</a> Yang, Shuo, et al. "WIDER FACE: A Face Detection Benchmark"
+              IEEE Conference on Computer Vision and Pattern Recognition, 2016
             </p>
 
           </div>
